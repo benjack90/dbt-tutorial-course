@@ -1,0 +1,53 @@
+version: 2
+
+models:
+  - name: stg_ecommerce__orders
+    description: "Summary of our raw orders data with one row per order."
+    columns:
+      - name: order_id
+        description: "The unique identifier for the order."
+        tests:
+          - not_null:
+              severity: error
+          - unique:
+              severity: error
+
+      - name: user_id
+        description: "The unique identifier for the user."
+        tests:
+          - not_null
+
+      - name: status
+        description: "The status of the order."
+        tests:
+          - not_null
+          - accepted_values:
+              name: unexpected_order_status # We can name our tests to make it easier to give more meaningful errors
+              values:
+                - Processing
+                - Cancelled
+                - Shipped
+                - Complete
+                - Returned
+
+      - name: gender
+        description: "The gender of the user."
+
+      - name: created_at
+        description: "The timestamp of the order creation."
+
+      - name: returned_at
+        description: "The timestamp when the user initiated a return."
+
+      - name: shipped_at
+        description: "The timestamp when the order was shipped."
+
+      - name: delivered_at
+        description: "The timestamp when the order was delivered."
+
+      - name: num_of_item
+        description: "The number of items in the order."
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
