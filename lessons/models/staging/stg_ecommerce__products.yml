@@ -1,0 +1,25 @@
+version: 2
+
+models:
+  - name: stg_ecommerce__products
+    description: "The products that are available for purchase."
+    columns:
+      - name: product_id
+        description: "The unique identifier for the product."
+        tests:
+          - not_null:
+              severity: error
+          - unique:
+              severity: error
+
+      - name: product_brand
+        description: "The brand of the product."
+
+      - name: retail_price
+        description: "The retail price of the product."
+
+      - name: product_cost
+        description: "The cost to the company of the product."
+
+      - name: product_department
+        description: "The department to which the product belongs."

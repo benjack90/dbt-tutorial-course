@@ -1,0 +1,29 @@
+version: 2
+
+models:
+  - name: stg_ecommerce__order_items
+    description: "The items contained in an order with one row per item."
+    columns:
+      - name: order_item_id
+        description: "The unique identifier for the order item."
+        tests:
+          - not_null:
+              severity: error
+          - unique:
+              severity: error
+
+      - name: order_id
+        description: "The foreign key to the orders table."
+        tests:
+          - not_null
+
+      - name: user_id
+        description: "The user id of the user who placed the order."
+
+      - name: product_id
+        description: "The foreign key to the products table."
+        tests:
+          - not_null
+
+      - name: sale_price
+        description: "The final sale price of the order item."
