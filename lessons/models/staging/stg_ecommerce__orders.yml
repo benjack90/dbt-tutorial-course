@@ -22,7 +22,7 @@ models:
         tests:
           - not_null
           - accepted_values:
-              name: unexpected_order_status # We can name our tests to make it easier to give more meaningful errors
+              name: unexpected_order_status
               values:
                 - Processing
                 - Cancelled
@@ -35,17 +35,28 @@ models:
 
       - name: created_at
         description: "The timestamp of the order creation."
+        tests:
+          - not_null
 
       - name: returned_at
         description: "The timestamp when the user initiated a return."
+        tests:
+          - not_null:
+              where: "status = 'Returned'"
 
       - name: shipped_at
         description: "The timestamp when the order was shipped."
+        tests:
+          - not_null:
+              where: "status not in ('Processing', 'Cancelled')"
 
       - name: delivered_at
         description: "The timestamp when the order was delivered."
+        tests:
+          - not_null:
+              where: "status in ('Complete', 'Returned')"
 
-      - name: num_of_item
+      - name: num_of_items_ordered
         description: "The number of items in the order."
         tests:
           - not_null
