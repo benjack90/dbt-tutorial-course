@@ -1,0 +1,71 @@
+version: 2
+
+models:
+  - name: dim_orders
+    description: "Dimension table summarizing details about a given order"
+    columns:
+      - name: order_id
+        description: "The unique identifier for an order, which is the PK for this table"
+        tests:
+          - not_null:
+              severity: error
+          - unique:
+              severity: error
+          - relationships:
+              to: ref('stg_ecommerce__orders')
+              field: order_id
+              severity: error
+
+      - name: order_status
+        description: "The current status of an order (e.g. 'created', 'shipped', 'delivered', 'returned')"
+        tests:
+          - not_null
+
+      - name: order_created_at
+        description: "The timestamp at which the order was created"
+        tests:
+          - not_null
+
+      - name: order_shipped_at
+        description: "The timestamp at which the order was shipped"
+
+      - name: order_delivered_at
+        description: "The timestamp at which the order was delivered"
+
+      - name: order_returned_at
+        description: "The timestamp at which the order was returned"
+
+      - name: num_items_ordered
+        description: "The number of items ordered in the order"
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: total_order_sale_price
+        description: "The sum of the item sale prices for all items in the order"
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: total_order_product_cost
+        description: "The sum of all the product costs for all items in the order"
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: total_order_profit
+        description: "The sum of all the item profits (sale price - product cost) for all items in the order"
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: total_order_discount
+        description: "The sum of all the item discounts (sale price - retail price) for all items in the order"
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0

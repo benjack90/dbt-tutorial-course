@@ -2,7 +2,7 @@ with products as (
   SELECT
     product_id,
 	product_department,
-    product_retail_price,
+    retail_price,
 	product_cost
   FROM
     {{ ref('stg_ecommerce__products')}}
@@ -19,11 +19,11 @@ SELECT
 	oi.item_sale_price,
 
 	p.product_department,
-	p.product_retail_price,
+	p.retail_price,
 	p.product_cost,
 
 	oi.item_sale_price - p.product_cost as item_profit,
-	p.product_retail_price - oi.item_sale_price as item_discount
+	p.retail_price - oi.item_sale_price as item_discount
 
 FROM
 	{{ ref('stg_ecommerce__order_items') }} oi
