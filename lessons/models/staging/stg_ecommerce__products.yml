@@ -33,3 +33,7 @@ models:
         description: "The department to which the product belongs."
         tests:
           - not_null
+          - accepted_values:
+              values:
+                - "Men"
+                - "Women"
