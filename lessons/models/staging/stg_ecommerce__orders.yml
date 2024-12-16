@@ -43,6 +43,10 @@ models:
         tests:
           - not_null:
               where: "status = 'Returned'"
+          - dbt_utils.expression_is_true:
+              expression: ">= delivered_at"
+              config:
+                where: "delivered_at IS NOT NULL AND returned_at IS NOT NULL"
 
       - name: shipped_at
         description: "The timestamp when the order was shipped."
@@ -55,6 +59,10 @@ models:
         tests:
           - not_null:
               where: "status in ('Complete', 'Returned')"
+          - dbt_utils.expression_is_true:
+              expression: ">= shipped_at"
+              config:
+                where: "shipped_at IS NOT NULL AND delivered_at IS NOT NULL"
 
       - name: num_of_items_ordered
         description: "The number of items in the order."
