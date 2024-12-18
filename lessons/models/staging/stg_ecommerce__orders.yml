@@ -7,9 +7,7 @@ models:
       - name: order_id
         description: "The unique identifier for the order."
         tests:
-          - not_null:
-              severity: error
-          - unique:
+          - primary_key:
               severity: error
 
       - name: user_id
