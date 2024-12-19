@@ -7,9 +7,7 @@ models:
       - name: order_item_id
         description: "The order item ID which is the primary key for the table"
         tests:
-          - not_null:
-              severity: error
-          - unique:
+          - primary_key:
               severity: error
 
       - name: order_id
@@ -67,5 +65,5 @@ models:
         tests:
           - not_null
           - dbt_utils.expression_is_true:
-              expression: "= (product_retail_price - item_sale_price)"
+              expression: "= (retail_price - item_sale_price)"
               severity: warn

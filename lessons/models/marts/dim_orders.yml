@@ -7,9 +7,7 @@ models:
       - name: order_id
         description: "The unique identifier for an order, which is the PK for this table"
         tests:
-          - not_null:
-              severity: error
-          - unique:
+          - primary_key:
               severity: error
           - relationships:
               to: ref('stg_ecommerce__orders')
@@ -17,7 +15,7 @@ models:
               severity: error
 
       - name: order_status
-        description: "The current status of an order (e.g. 'created', 'shipped', 'delivered', 'returned')"
+        description: "{{ doc('status') }}"
         tests:
           - not_null
 
