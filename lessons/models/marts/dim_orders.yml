@@ -67,3 +67,8 @@ models:
           - not_null
           - dbt_expectations.expect_column_values_to_be_between:
               min_value: 0
+      - name: user_first_order_created_at
+        description: "The timestamp at which the user placed their first order"
+        tests:
+          - not_null
+          - dbt_expectations.

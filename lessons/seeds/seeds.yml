@@ -1,0 +1,25 @@
+version: 2
+
+seeds:
+  - name: seed_distribution_centers_new
+    description: "New distribution centers that needed to be loaded into the warehouse manually."
+    tests:
+      - deb_expectations.expect_table_row_count_to_equal:
+          value: 2
+
+    columns:
+      - name: id
+        tests:
+          - primary_key:
+              severity: error
+      - name: name
+        description: "Distribution center name"
+      - name: latitude
+      - name: longitude
+
+    config:
+      column_types:
+        id: INTEGER
+        name: STRING
+        latitude: FLOAT
+        longitude: FLOAT

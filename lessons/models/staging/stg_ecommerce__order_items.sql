@@ -11,9 +11,12 @@ SELECT
 	order_id,
 	user_id,
 	product_id,
-
+    returned_at AS order_item_returned_at,
+    shipped_at as order_item_shipped_at,
+    delivered_at as order_item_delivered_at,
 	-- Other columns
 	sale_price AS item_sale_price
+
 
 	{# Unused Columns
 

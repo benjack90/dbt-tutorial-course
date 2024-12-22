@@ -15,6 +15,7 @@ order_item_measures AS (
 
 SELECT
     o.order_id,
+    o.user_id,
     o.status as order_status,
     o.created_at as order_created_at,
     o.shipped_at as order_shipped_at,
@@ -25,11 +26,12 @@ SELECT
     om.total_order_product_cost,
     om.total_order_profit,
     om.total_order_discount
+    user_data.first_order_created_at as user_first_order_created_at
 
 
 FROM
     {{ ref('stg_ecommerce__orders') }} as o
     LEFT JOIN order_item_measures as om
         ON o.order_id = om.order_id
-    {# LEFT JOIN {{ ref('int_ecommerce__first_order_created') }} as user_data
-        ON o.user_id = user_data.user_id #}
+    LEFT JOIN {{ ref('int_ecommerce__first_order_created') }} as user_data
+        ON o.user_id = user_data.user_id
