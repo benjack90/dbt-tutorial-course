@@ -3,6 +3,8 @@ version: 2
 models:
   - name: dim_orders
     description: "Dimension table summarizing details about a given order"
+
+    access: protected
     columns:
       - name: order_id
         description: "The unique identifier for an order, which is the PK for this table"

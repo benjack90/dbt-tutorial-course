@@ -25,7 +25,7 @@ SELECT
     om.total_order_sale_price,
     om.total_order_product_cost,
     om.total_order_profit,
-    om.total_order_discount
+    om.total_order_discount,
     user_data.first_order_created_at as user_first_order_created_at
 
 

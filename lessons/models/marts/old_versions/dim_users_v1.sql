@@ -1,5 +1,3 @@
-
-
 with order_items_summary as (
     SELECT
         oi.order_id,
@@ -11,17 +9,6 @@ with order_items_summary as (
         1
 ),
 
-user_web_activity as (
-    SELECT
-        e.user_id,
-        count(distinct e.event_id) as user_home_views
-    FROM
-        {{ ref('stg_ecommerce__events') }} as e
-    WHERE
-        e.event_type = 'home_view'
-    GROUP BY
-    1
-),
 
 user_order_details as (
     SELECT
@@ -63,12 +50,8 @@ uod.returned_order_items,
 uod.user_total_sale,
 uod.user_total_profit,
 uod.user_total_discount,
-uod.user_returned_all_items_order_count/uod.user_order_count as user_returned_order_rate,
-
-/* User Web Activity */
-uwa.user_home_views
+uod.user_returned_all_items_order_count/uod.user_order_count as user_returned_order_rate
 
 FROM
 user_order_details as uod
 left join {{ ref('int_ecommerce__first_order_created') }} as foc on foc.user_id = uod.user_id
-left join user_web_activity as uwa on uwa.user_id = uod.user_id

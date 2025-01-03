@@ -3,15 +3,24 @@ version: 2
 models:
   - name: stg_ecommerce__order_items
     description: "The items contained in an order with one row per item."
+    config:
+      contract:
+        enforced: true
     columns:
       - name: order_item_id
         description: "The unique identifier for the order item."
+        data_type: INTEGER
+        constraints:
+          - type: not_null
         tests:
           - primary_key:
               severity: error
 
       - name: order_id
         description: "The foreign key to the orders table."
+        data_type: INTEGER
+        constraints:
+          - type: not_null
         tests:
           - not_null
           - relationships:
@@ -20,11 +29,17 @@ models:
 
       - name: user_id
         description: "The user id of the user who placed the order."
+        data_type: INTEGER
+        constraints:
+          - type: not_null
         tests:
           - not_null
 
       - name: product_id
         description: "The foreign key to the products table."
+        data_type: INTEGER
+        constraints:
+          - type: not_null
         tests:
           - not_null
           - relationships:
@@ -33,7 +48,23 @@ models:
 
       - name: item_sale_price
         description: "The final sale price of the order item."
+        data_type: FLOAT64
+        constraints:
+          - type: not_null
         tests:
           - not_null
           - dbt_expectations.expect_column_values_to_be_between:
               min_value: 0
+
+      - name: order_item_returned_at
+        description: "The timestamp at which the order item was returned."
+        data_type: TIMESTAMP
+
+
+      - name: order_item_shipped_at
+        description: "The timestamp at which the order item was shipped."
+        data_type: TIMESTAMP
+
+      - name: order_item_delivered_at
+        description: "The timestamp at which the order item was delivered."
+        data_type: TIMESTAMP

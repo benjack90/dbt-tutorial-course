@@ -67,3 +67,16 @@ models:
           - dbt_utils.expression_is_true:
               expression: "= (retail_price - item_sale_price)"
               severity: warn
+  - name: int_ecommerce__first_order_created
+    description: "Table showing the first order date from a given user"
+    columns:
+      - name: user_id
+        description: "The primary key for the table and the unique identifier for a user."
+        tests:
+          - primary_key:
+              severity: error
+
+      - name: first_order_date
+        description: "The date of the first order for this user"
+        tests:
+          - not_null

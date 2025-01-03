@@ -44,3 +44,19 @@ models:
 
       - name: user_returned_order_rate
         description: "The rate at which the user returns orders."
+
+      - name: user_home_views
+        description: "The number of times the user has viewed the homepage."
+
+    latest_version: 2
+    versions:
+      - v: 1
+        columns:
+          - include: all
+            exclude: [user_home_views]
+
+      - v: 2
+        columns:
+          - include: all
+        config:
+          alias: dim_users
