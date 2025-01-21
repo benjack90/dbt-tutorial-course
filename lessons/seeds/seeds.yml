@@ -4,7 +4,7 @@ seeds:
   - name: seed_distribution_centers_new
     description: "New distribution centers that needed to be loaded into the warehouse manually."
     tests:
-      - deb_expectations.expect_table_row_count_to_equal:
+      - dbt_expectations.expect_table_row_count_to_equal:
           value: 2
 
     columns:

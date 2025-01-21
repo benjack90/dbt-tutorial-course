@@ -76,7 +76,7 @@ models:
           - primary_key:
               severity: error
 
-      - name: first_order_date
+      - name: first_order_created_at
         description: "The date of the first order for this user"
         tests:
           - not_null

@@ -8,6 +8,15 @@ order_item_measures AS (
         SUM(product_cost) as total_order_product_cost,
         SUM(item_profit) as total_order_profit,
         SUM(item_discount) as total_order_discount,
+        {# set deparments manually for our for loop #}
+        {%- set departments = ['Men','Women'] -%}
+
+        {# use dbt_utils.get_column_values to extract all the possible column values dynamically #}
+        {# {%- for department in dbt_utils.get_column_values(table=ref('int_ecommerce__order_items_products'),column='product_department') %} #}
+        {%- for department in departments %}
+        SUM(IF(product_department = '{{department}}', item_sale_price, 0)) as total_sold_{{department.lower()}}{{"," if not loop.last }}
+        {%- endfor %}
+
     FROM
         {{ ref('int_ecommerce__order_items_products') }}
     GROUP BY 1
@@ -18,7 +27,9 @@ SELECT
     o.user_id,
     o.status as order_status,
     o.created_at as order_created_at,
+    {{ is_weekend('o.created_at') }} as oder_date_is_weekend,
     o.shipped_at as order_shipped_at,
+    {{ is_weekend('o.shipped_at') }} as order_shipped_is_weekend,
     o.delivered_at as order_delivered_at,
     o.returned_at as order_returned_at,
     o.num_of_items_ordered as num_items_ordered,
@@ -27,7 +38,9 @@ SELECT
     om.total_order_profit,
     om.total_order_discount,
     user_data.first_order_created_at as user_first_order_created_at
-
+    {%- for department in departments %}
+    ,om.total_sold_{{department.lower()}}
+    {%- endfor %}
 
 FROM
     {{ ref('stg_ecommerce__orders') }} as o

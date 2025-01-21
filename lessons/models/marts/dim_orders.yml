@@ -73,4 +73,3 @@ models:
         description: "The timestamp at which the user placed their first order"
         tests:
           - not_null
-          - dbt_expectations.
